@@ -1,22 +1,29 @@
 <template>
   <div id="app">
-    <router-view />
+    <main class="main-content">
+      <router-view class="router-container"/>
+    </main>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'App'
+  name: "App",
+  components: { }
 }
 </script>
 
 <style>
 #app {
-  text-align: center;
-  width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  min-height: 100vh;
 }
+
+.main-content {
+  flex-grow: 1;  /* Giúp nội dung mở rộng đầy đủ */
+}
+
 </style>
+
