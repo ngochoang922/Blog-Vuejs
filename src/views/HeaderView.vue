@@ -1,59 +1,41 @@
 <template>
     <header class="header">
-        <h1 style="font-family: 'Revista', serif;">Star Network</h1>
-        <nav class="nav-links">
-            <a href="https://web.telegram.org/"><img src="../assets/images/telegram.png" alt="Telegram Icon" class="social-icon"></a>
-            <a href="https://www.instagram.com/"><img src="../assets/images/instagram.png" alt="Instagram Icon" class="social-icon"></a>
-            <a href="https://www.facebook.com/"><img src="../assets/images/facebook.png" alt="Facebook Icon" class="social-icon"></a>
-            <router-link to="/login">Get Started</router-link>
-        </nav>
+      <h2>Facebook</h2>
+      <input type="text" placeholder="Tìm kiếm..." class="search-box" />
+      <div class="user-actions">
+        <span>🔔</span>
+        <span>📨</span>
+        <span>👤</span>
+      </div>
     </header>
-</template>
-
-<script>
-export default {
-    name: "HeaderView"
-}
-</script>
-
-<style>
-.header{
+  </template>
+  
+  <style scoped>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #1877f2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 1200px;
-    background-color: rgb(250, 235, 215);
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eee;
-}
-
-.nav-links {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #555;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.nav-links a:hover {
-    color: #333;
-}
-
-.social-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-}
-
-.social-icon:hover {
-    transform: scale(1.1);
-}
-</style>
+    padding: 0 20px;
+    color: white;
+    z-index: 1000;
+  }
+  
+  .search-box {
+    padding: 8px;
+    width: 200px;
+    border-radius: 20px;
+    border: none;
+  }
+  
+  .user-actions span {
+    margin-left: 15px;
+    cursor: pointer;
+  }
+  </style>
+  

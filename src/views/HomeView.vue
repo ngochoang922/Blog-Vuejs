@@ -1,15 +1,39 @@
 <script>
+import HeaderView from "../views/HeaderView.vue";
+import SidebarView from "../views/SidebarView.vue";
+import NewsFeed from "../views/NewsFeed.vue";
+import ChatSidebar from "../views/ChatSidebar.vue";
 
 export default {
   name: "HomeView",
+  components: { HeaderView, SidebarView, NewsFeed, ChatSidebar }
 }
 </script>
 
 <template>
-  <div>
-    <h1>Home View</h1>
+  <div class="main-container">
+    <HeaderView />
+    
+    <div class="content">
+      <SidebarView />
+      <NewsFeed />
+      <ChatSidebar />
+    </div>
   </div>
 </template>
 
-<style>
+
+<style scoped>
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  margin-top: 60px;
+}
+@import "../assets/styles.css";
 </style>

@@ -1,40 +1,18 @@
 <template>
-   <footer class="footer">
-      <div class="footer-container">
-        <div class="footer-column">
-          <h2 class="site-title">Site Title</h2>
-          <p class="tagline">Write site tagline...</p>
-          <p class="designed-with">Designed with <a href="#">WordPress</a></p>
-        </div>
+   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+      </a>
+      <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
+    </div>
 
-        <div class="footer-column">
-          <h3>About</h3>
-          <ul>
-            <li><router-link to="/team">Team</router-link></li>
-            <li><router-link to="/history">History</router-link></li>
-            <li><router-link to="/careers">Careers</router-link></li>
-          </ul>
-        </div>
-
-        <div class="footer-column">
-          <h3>Privacy</h3>
-          <ul>
-            <li><router-link to="/privacy">Privacy Policy</router-link></li>
-            <li><router-link to="/terms">Terms and Conditions</router-link></li>
-            <li><router-link to="/contact">Contact Us</router-link></li>
-          </ul>
-        </div>
-
-        <div class="footer-column">
-          <h3>Social</h3>
-          <ul>
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Twitter/X</a></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+    </ul>
+  </footer>
 </template>
 
 <script>
