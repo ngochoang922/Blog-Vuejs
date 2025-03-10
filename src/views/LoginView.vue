@@ -42,5 +42,5 @@ export default defineComponent({
 
 
 <style scoped>
-@import "../../public/login.css";
+@import "../assets/login.css";
 </style>

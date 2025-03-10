@@ -24,6 +24,7 @@ export default {
 
 
 <style scoped>
+@import "../assets/styles.css";
 .main-container {
   display: flex;
   flex-direction: column;
@@ -35,5 +36,4 @@ export default {
   flex: 1;
   margin-top: 60px;
 }
-@import "../assets/styles.css";
 </style>
