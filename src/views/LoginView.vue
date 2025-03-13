@@ -1,34 +1,36 @@
 <template>
- <div class="form-container">
-    <h2>Đăng Nhập</h2>
-    <form @submit.prevent="login">
-      <label for="email">Tên Đăng Nhập</label>
-      <input v-model="email" type="text" id="email" name="email" placeholder="Nhập Email" required>
+  <div class="login-container">
+    <div class="login-box">
+      <h2 class="text-white text-center">Đăng Nhập</h2>
+      <form @submit.prevent="login">
+        <label for="email">Tên Đăng Nhập</label>
+        <input v-model="email" type="text" id="email" name="email" placeholder="Nhập Email" required>
 
-      <label for="password">Mật Khẩu</label>
-      <input v-model="password" type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+        <label for="password">Mật Khẩu</label>
+        <input v-model="password" type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
 
-      <button type="submit" class="btn">Đăng Nhập</button>
-
-      <p>Chưa có tài khoản? <router-link to="/register">Đăng ký ngay</router-link></p>
-    </form>
+        <button type="submit" class="btn">Đăng Nhập</button>
+        <p ></p>
+        <p class="text-white text-center">Chưa có tài khoản? <router-link to="/register">Đăng ký ngay</router-link></p>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import API from '../api/api'
+import API from '../api/api';
 
 export default defineComponent({
   data() {
     return { email: "", password: "" };
   },
   methods: {
-    async login(){
+    async login() {
       try {
         const res = await API.post("/access/sign-in", { email: this.email, password: this.password });
         localStorage.setItem("token", res.data.metadata.AccessToken);
-        if(res.data.status == 200){
+        if (res.data.status == 200) {
           this.$router.push("/home");
         }
         console.log("Response Data:", JSON.stringify(res.data, null, 2));
@@ -37,10 +39,69 @@ export default defineComponent({
       }
     }
   }
-})
+});
 </script>
 
-
 <style scoped>
-@import "../assets/login.css";
+/* Thiết lập hình nền */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw; /* Đảm bảo chiếm toàn bộ chiều rộng màn hình */
+  background: url('../assets/images/sunset-forest-minimal-4k-wallpaper-thumb.jpg') no-repeat center center/cover;
+  position: fixed; /* Giữ cố định giao diện */
+  top: 0;
+  left: 0;
+}
+
+.login-box {
+  width: 400px; /* Đảm bảo form login có kích thước hợp lý */
+  padding: 30px;
+  background: transparent;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  
+}
+
+/* Căn chỉnh nội dung trong form */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  color: rgb(0, 0, 0);
+}
+
+input::placeholder {
+  color: rgba(82, 59, 59, 0.586);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #85fdfd;
+  border: none;
+  border-radius: 6px;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #25d0d3;
+}
+
+a {
+  color: #00ffea;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
 </style>

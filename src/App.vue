@@ -16,10 +16,15 @@ export default {
 </script>
 
 <style>
+body{
+  background-color: green;
+}
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: brown;
+  
 }
 
 .main-content {

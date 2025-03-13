@@ -19,10 +19,10 @@
   
   <style scoped>
   .chat-sidebar {
-    width: 250px;
-    background: #f0f2f5;
+    width: 200px;
+    background: #d5d1d1;
     padding: 20px;
-    height: 100vh;
+    height: 200vh ;
     position: fixed;
     top: 60px;
     right: 0;

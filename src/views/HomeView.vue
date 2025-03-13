@@ -20,7 +20,7 @@ export default {
       <ChatSidebar />
     </div>
   </div>
-</template>
+</template>o
 
 
 <style scoped>
@@ -34,6 +34,5 @@ export default {
 .content {
   display: flex;
   flex: 1;
-  margin-top: 60px;
-}
+};
 </style>
