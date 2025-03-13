@@ -1,5 +1,4 @@
 <template>  
-  <div class="content">
     <div class="newsfeed">
       <!-- Tạo bài viết mới -->
       <div class="create-post">
@@ -54,32 +53,6 @@
       </div>
     </div>
     
-    <div class="right-sidebar">
-      <div class="sidebar-card">
-        <h3>Tin tức nổi bật</h3>
-        <div class="news-item">
-          <span class="news-dot">•</span>
-          <p>Tin tức mới về công nghệ</p>
-        </div>
-        <div class="news-item">
-          <span class="news-dot">•</span>
-          <p>Sự kiện văn hóa cuối tuần</p>
-        </div>
-        <div class="news-item">
-          <span class="news-dot">•</span>
-          <p>Cập nhật thời tiết hôm nay</p>
-        </div>
-      </div>
-      
-      <div class="sidebar-card">
-        <h3>Được tài trợ</h3>
-        <div class="sponsored-item">
-          <div class="sponsored-img"></div>
-          <p>Khám phá sản phẩm mới</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -92,6 +65,66 @@ data() {
         content: "Chào buổi sáng! 🌞 Hôm nay là một ngày tuyệt vời để bắt đầu tuần mới. Mọi người có kế hoạch gì cho ngày hôm nay không?",
         time: "20 phút trước",
         image: "/api/placeholder/600/400"
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
       },
       { 
         user: "Trần B", 
@@ -159,16 +192,17 @@ padding-top: 16px; /* Thêm padding-top cho phần sidebar */
 
 /* Tạo bài viết */
 .create-post {
-background-color: #d5d1d1;
+background-color: rgb(204 216 220 / 67%);
 border-radius: 8px; /* Sửa thành 8px để trông đẹp hơn */
 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 width: 100%;
 padding: 12px; /* Thêm padding */
-margin-top: 0; /* Đảm bảo không có margin phía trên */
+margin-top: 45px; /* Đảm bảo không có margin phía trên */
 margin-bottom: 16px;
 }
 
 .post-input {
+
 display: flex;
 align-items: center;
 margin-bottom: 12px;
@@ -220,7 +254,7 @@ background-color: #f0f2f5;
 
 /* Bài viết */
 .post {
-background-color: #d5d1d1;
+background-color: rgb(204 216 220 / 67%);
 border-radius: 8px;
 padding: 12px;
 margin-bottom: 16px;
