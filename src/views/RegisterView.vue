@@ -55,7 +55,7 @@
  
          if(res.data.status == 200){
            this.$router.push("/login"); 
-         }
+         } 
          
          console.log("Response Data:", JSON.stringify(res.data, null, 2));
        } catch (error) {
