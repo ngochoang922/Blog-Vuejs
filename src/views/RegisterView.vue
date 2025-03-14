@@ -69,7 +69,7 @@
 
 
 <style scoped>
-@import "../../public/register.css";
+@import "../assets/register.css";
 .register-container {
   display: flex;
   justify-content: center;
