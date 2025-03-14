@@ -53,64 +53,95 @@
         </div>
       </div>
     </div>
-
-    <div class="right-sidebar">
-      <div class="sidebar-card">
-        <h3>Tin tức nổi bật</h3>
-        <div class="news-item">
-          <span class="news-dot">•</span>
-          <p>Tin tức mới về công nghệ</p>
-        </div>
-        <div class="news-item">
-          <span class="news-dot">•</span>
-          <p>Sự kiện văn hóa cuối tuần</p>
-        </div>
-        <div class="news-item">
-          <span class="news-dot">•</span>
-          <p>Cập nhật thời tiết hôm nay</p>
-        </div>
-      </div>
-
-      <div class="sidebar-card">
-        <h3>Được tài trợ</h3>
-        <div class="sponsored-item">
-          <div class="sponsored-img"></div>
-          <p>Khám phá sản phẩm mới</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
-
+    
 <script>
+
 export default {
-  data() {
-    return {
-      posts: [
-        {
-          user: 'Nguyễn Văn A',
-          content:
-            'Chào buổi sáng! 🌞 Hôm nay là một ngày tuyệt vời để bắt đầu tuần mới. Mọi người có kế hoạch gì cho ngày hôm nay không?',
-          time: '20 phút trước',
-          image: '/api/placeholder/600/400',
-        },
-        {
-          user: 'Trần B',
-          content:
-            'Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.',
-          time: '1 giờ trước',
-        },
-        {
-          user: 'Mai C',
-          content:
-            'Đi du lịch Đà Nẵng thật vui! ✈️ Để lại vài tấm hình kỷ niệm chuyến đi. Ai có gợi ý cho địa điểm tiếp theo không?',
-          time: '3 giờ trước',
-          image: '/api/placeholder/600/350',
-        },
-      ],
-    }
-  },
+data() {
+  return {
+    posts: [
+      { 
+        user: "Nguyễn Văn A", 
+        content: "Chào buổi sáng! 🌞 Hôm nay là một ngày tuyệt vời để bắt đầu tuần mới. Mọi người có kế hoạch gì cho ngày hôm nay không?",
+        time: "20 phút trước",
+        image: "/api/placeholder/600/400"
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Trần B", 
+        content: "Hôm nay thật đẹp trời! ☀️ Đi dạo công viên và thưởng thức một tách cà phê, không còn gì tuyệt vời hơn.",
+        time: "1 giờ trước" 
+      },
+      { 
+        user: "Mai C", 
+        content: "Đi du lịch Đà Nẵng thật vui! ✈️ Để lại vài tấm hình kỷ niệm chuyến đi. Ai có gợi ý cho địa điểm tiếp theo không?",
+        time: "3 giờ trước",
+        image: "/api/placeholder/600/350" 
+      }
+    ]
+  };
 }
+};
 </script>
 
 <style>

@@ -17,14 +17,17 @@ export default {
 
 <style>
 body{
-  background-color: green;
+  background-image: url("./assets/images/Hinh-nen-don-gian-ma-dep.jpg"); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  
 }
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: brown;
-  
+  min-height: 100px;
 }
 
 .main-content {

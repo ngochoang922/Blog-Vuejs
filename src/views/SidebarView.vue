@@ -12,13 +12,17 @@
 
 <style scoped>
 .sidebar {
-  width: 200px;
-  background: #d5d1d1;
-  padding: 20px;
-  height: 100vh;
+  width: 220px;
+  background: rgba(213, 209, 209, 0.2); /* Nền trong suốt hơn */
+  padding: 15px;
+  height: 90vh;
   position: fixed;
-  left: 0;
-  top: 50px;
+  left: 10px;
+  top: 60px;
+  backdrop-filter: blur(15px); /* Hiệu ứng làm mờ mạnh hơn */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Tạo hiệu ứng nổi */
+  border-radius: 12px; /* Bo góc */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Viền nhẹ */
 }
 
 .sidebar ul {
@@ -30,10 +34,13 @@
   padding: 12px;
   margin-bottom: 10px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .sidebar li:hover {
-  background: #e4e6eb;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
 }
+
 </style>
