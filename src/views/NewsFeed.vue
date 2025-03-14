@@ -52,10 +52,11 @@
         </div>
       </div>
     </div>
-    
-</template>
 
+</template>
+    
 <script>
+
 export default {
 data() {
   return {
@@ -427,5 +428,21 @@ flex-shrink: 0;
 }
 
 
+}
+
+<style scoped>
+.news-feed {
+  flex: 1;
+  padding: 20px;
+  margin-left: 250px;
+  margin-right: 250px;
+}
+
+.post {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 </style>
