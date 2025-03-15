@@ -1,13 +1,14 @@
-<script>
+<script setup>
 import HeaderView from "../views/HeaderView.vue";
 import SidebarView from "../views/SidebarView.vue";
 import NewsFeed from "../views/NewsFeed.vue";
 import ChatSidebar from "../views/ChatSidebar.vue";
+import { ref, provide } from "vue";
 
-export default {
-  name: "HomeView",
-  components: { HeaderView, SidebarView, NewsFeed, ChatSidebar }
-}
+
+const searchResults = ref([])
+
+provide("searchResults", searchResults)
 </script>
 
 <template>

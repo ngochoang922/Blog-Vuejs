@@ -4,8 +4,8 @@
       <h2 class="text-white text-center">Đăng Ký</h2>
       <form @submit.prevent="register">
         
-        <label for="username" class="text-white">Tên Đăng Nhập</label>
-        <input v-model="username" type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
+        <label for="fullname" class="text-white">Tên Đầy Đủ</label>
+        <input v-model="fullname" type="text" id="fullname" name="fullname" placeholder="Nhập tên của bạn" required>
 
         <label for="email" class="text-white">Email</label>
         <input v-model="email" type="email" id="email" name="email" placeholder="Nhập email" required>
@@ -37,7 +37,7 @@
  
  export default defineComponent({
    data() {
-     return { username: "", email: "", password: "", confirmPassword: "" };
+     return { fullname: "", email: "", password: "", confirmPassword: "" };
    },
    methods: {
      async register(){
@@ -48,7 +48,7 @@
        
        try {
          const res = await API.post("/access/sign-up", { 
-           username: this.username,
+           fullname: this.fullname,
            email: this.email,
            password: this.password
          });

@@ -1,3 +1,25 @@
+<script setup>
+import { ref, provide } from "vue";
+
+const userId = ref(localStorage.getItem("userId"));
+
+provide("userId", userId);
+
+function setUserId(id) {
+  userId.value = id;
+  localStorage.setItem("userId", id);
+}
+
+function clearUserId() {
+  userId.value = null;
+  localStorage.removeItem("userId");
+}
+
+provide("userId", userId);
+provide("setUserId", setUserId);
+provide("clearUserId", clearUserId);
+</script>
+
 <template>
   <div id="app">
 

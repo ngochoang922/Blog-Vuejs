@@ -1,9 +1,34 @@
+<script setup>
+import { inject, ref } from "vue"
+import { useRouter } from "vue-router"
+import API from '../api/api'
+
+const email = ref("")
+const password = ref("")
+const setUserId = inject("setUserId")
+const router = useRouter()
+
+async function login() {
+  try {
+    const res = await API.post("/access/sign-in", { email: this.email, password: this.password });
+    setUserId(res.data.metadata.user.id);
+    localStorage.setItem("token", res.data.metadata.AccessToken);
+    if (res.data.status == 200) {
+      router.push("/home");
+    }
+    console.log("Response Data:", JSON.stringify(res.data, null, 2));
+  } catch (error) {
+    console.error(`Login Vue Error:::${error}`);
+  }
+}
+</script>
+
 <template>
   <div class="login-container">
     <div class="login-box">
       <h2 class="text-white text-center">Đăng Nhập</h2>
       <form @submit.prevent="login">
-        <label for="email">Tên Đăng Nhập</label>
+        <label for="email">Email</label>
         <input v-model="email" type="text" id="email" name="email" placeholder="Nhập Email" required>
 
         <label for="password">Mật Khẩu</label>
@@ -17,30 +42,7 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from "vue";
-import API from '../api/api';
 
-export default defineComponent({
-  data() {
-    return { email: "", password: "" };
-  },
-  methods: {
-    async login() {
-      try {
-        const res = await API.post("/access/sign-in", { email: this.email, password: this.password });
-        localStorage.setItem("token", res.data.metadata.AccessToken);
-        if (res.data.status == 200) {
-          this.$router.push("/home");
-        }
-        console.log("Response Data:", JSON.stringify(res.data, null, 2));
-      } catch (error) {
-        console.error(`Login Vue Error:::${error}`);
-      }
-    }
-  }
-});
-</script>
 
 <style scoped>
 /* Thiết lập hình nền */

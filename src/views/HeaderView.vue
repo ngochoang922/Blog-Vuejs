@@ -1,9 +1,34 @@
+<script setup>
+import { ref, inject } from 'vue'
+import API from '../api/api'
+
+const searchQuery = ref('')
+const searchResults = inject("searchResults")
+
+async function searchPost() {
+  if (!searchQuery.value.trim()) return
+  try {
+    const res = await API.get(`/post/search/${searchQuery.value}`)
+    searchResults.value = res.data.metadata
+    console.log('Kết quả tìm kiếm:', searchResults.value)
+  } catch (error) {
+    console.error('Lỗi khi tìm kiếm bài viết:', error)
+  }
+}
+</script>
+
 <template>
   <header class="header">
     <div class="logo-search">
       <h2 class="logo">Star Nekwork</h2>
       <div class="search-container">
-        <input type="text" placeholder="Tìm kiếm..." class="search-box" />
+        <input 
+        v-model="searchQuery"
+        type="text" 
+        placeholder="Tìm kiếm..." 
+        class="search-box" 
+        @keydown.enter="searchPost"
+        />
         <span class="search-icon">🔍</span>
       </div>
     </div>
