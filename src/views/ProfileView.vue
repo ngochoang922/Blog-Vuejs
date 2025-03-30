@@ -1,77 +1,64 @@
 <template>
-    <div class="profile-container container">
-      <!-- Ảnh bìa -->
-      <div class="cover-photo position-relative">
-        <img src="https://picsum.photos/1920/600" alt="Cover Photo" class="img-fluid w-100" />
-        <div class="profile-picture-container">
-          <img src="https://picsum.photos/200/200" alt="Profile Picture" class="profile-picture img-thumbnail rounded-circle" />
-        </div>
-      </div>
-  
-      <!-- Thông tin người dùng -->
-      <div class="profile-info text-center mt-5">
-        <h2 class="mb-1">John Doe</h2>
-        <p class="text-muted">New York, NY</p>
-      </div>
-  
-      <!-- Tabs điều hướng -->
-      <ul class="nav nav-tabs justify-content-center mt-4">
-        <li class="nav-item">
-          <router-link to="/profile/about" class="nav-link profile-tab">About</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/profile/friends" class="nav-link profile-tab">Friends</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/profile/photos" class="nav-link profile-tab">Photos</router-link>
-        </li>
-      </ul>
-  
-      <!-- Nội dung động -->
-      <div class="mt-4">
-        <router-view />
+  <div class="profile-container container">
+    <!-- Cover Photo -->
+    <div class="cover-photo position-relative">
+      <img src="https://picsum.photos/1920/600" alt="Cover Photo" class="img-fluid w-100" style="height: 350px; object-fit: cover;" />
+      
+      <!-- Centered Profile Picture -->
+      <div class="profile-picture-container position-absolute start-50 translate-middle" style="bottom: -80px;">
+        <img 
+          src="https://picsum.photos/200/200" 
+          alt="Profile Picture" 
+          class="profile-picture img-thumbnail rounded-circle border-4 border-white" 
+          style="width: 170px; height: 170px; object-fit: cover;"
+        />
       </div>
     </div>
-  </template>
-  
-  <style scoped>
-  /* Ảnh bìa */
-  .cover-photo {
-    height: 350px;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  /* Định vị ảnh đại diện */
-  .profile-picture-container {
-    position: absolute;
-    bottom: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  /* Ảnh đại diện */
-  .profile-picture {
-    width: 150px;
-    height: 150px;
-    border: 5px solid white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Tabs giống Facebook */
-  .nav-tabs .nav-link {
-    font-size: 16px;
-    color: #65676b;
-    padding: 10px 20px;
-  }
-  
-  .nav-tabs .nav-link:hover {
-    background: #f0f2f5;
-  }
-  
-  .nav-tabs .nav-link.router-link-active {
-    border-bottom: 3px solid #1877f2;
-    color: #1877f2;
-  }
-  </style>
-  
+
+    <!-- User Information -->
+    <div class="profile-info text-center mt-5 pt-5">
+      <h2 class="mb-1">John Doe</h2>
+      <p class="text-muted">New York, NY</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="text-center mt-4">
+  <p class="fw-bold">Posts</p>
+  <hr class="mt-2">
+</div>
+
+
+    <!-- User Posts -->
+    <UserPosts />
+
+    <!-- Dynamic Content -->
+    <div class="mt-4">
+      <router-view />
+    </div>
+  </div>
+</template>
+
+<script>
+import UserPosts from "@/views/UserPosts.vue";
+
+export default {
+  components: {
+    UserPosts,
+  },
+};
+</script>
+
+<style scoped>
+.profile-picture-container {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.nav-tabs .nav-link {
+  color: #65676B;
+}
+
+.nav-tabs .nav-link.router-link-active {
+  color: #1877F2;
+  border-bottom: 3px solid #1877F2;
+}
+</style>
