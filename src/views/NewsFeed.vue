@@ -13,6 +13,7 @@ const limit = 10
 const content = ref('')
 const commentParentId = ref(null)
 const searchResults = inject('searchResults')
+const searchResults = inject('searchResults')
 let loadSearchResults = ref(false)
 const userRef = useUser()
 
@@ -34,9 +35,15 @@ async function createComment(post) {
 
     // Thêm bình luận mới vào post
     const newComment = {
+    // Thêm bình luận mới vào post
+    const newComment = {
       _id: res.data.metadata._id,
       author: { fullname: 'Bạn' },
       comment_content: res.data.metadata.comment_content,
+    }
+    
+    post.comments.push(newComment)
+    post.post_comments_count += 1 // Tăng số lượng bình luận
     }
     
     post.comments.push(newComment)
@@ -62,6 +69,7 @@ async function fetchPosts() {
       const commentRes = await API.get(`/comment?postId=${post._id}`)
 
       post.comments = commentRes.data.metadata
+      console.log('Comments:', post.comments, post._id)
       console.log('Comments:', post.comments, post._id)
     }
     nextCursor.value = res.data.metadata.nextCursor
@@ -152,6 +160,54 @@ async function createCommentInModal() {
   }
 }
 
+// Hàm mở modal bình luận
+function openCommentModal(post) {
+  selectedPost.value = JSON.parse(JSON.stringify(post)) // Tạo bản sao của post để tránh ảnh hưởng
+  showModal.value = true
+  // Thêm class để ngăn scroll của body khi modal mở
+  document.body.classList.add('modal-open')
+}
+
+// Hàm đóng modal
+function closeModal() {
+  showModal.value = false
+  document.body.classList.remove('modal-open')
+}
+
+// Hàm gửi bình luận trong modal
+async function createCommentInModal() {
+  if (!content.value.trim()) return
+  try {
+    const res = await API.post('/comment', {
+      postId: selectedPost.value._id,
+      userId: userId.value,
+      content: content.value,
+      commentParentId: commentParentId.value,
+    })
+
+    // Thêm bình luận mới vào selectedPost và post gốc
+    const newComment = {
+      _id: res.data.metadata._id,
+      author: { fullname: 'Bạn' },
+      comment_content: res.data.metadata.comment_content,
+    }
+    
+    selectedPost.value.comments.push(newComment)
+    selectedPost.value.post_comments_count += 1
+    
+    // Cập nhật lại post gốc trong danh sách posts
+    const originalPost = posts.value.find(p => p._id === selectedPost.value._id)
+    if (originalPost) {
+      originalPost.comments.push(newComment)
+      originalPost.post_comments_count += 1
+    }
+
+    content.value = ''
+  } catch (error) {
+    console.error('Lỗi khi tạo bình luận:', error)
+  }
+}
+
 onMounted(() => {
   const storedUser = localStorage.getItem('user');
   if (storedUser) {
@@ -173,9 +229,19 @@ onMounted(() => {
       closeModal()
     }
   })
+  
+  // Thêm sự kiện để đóng modal khi click bên ngoài
+  document.addEventListener('mousedown', (e) => {
+    const modal = document.querySelector('.modal-container')
+    if (modal && showModal.value && !modal.contains(e.target) && e.target.className === 'modal-overlay') {
+      closeModal()
+    }
+  })
 })
 
 watchEffect(() => {
+  console.log('📢 NewsFeed nhận searchResults:', searchResults.value)
+  loadSearchResults.value = searchResults.value.length > 0
   console.log('📢 NewsFeed nhận searchResults:', searchResults.value)
   loadSearchResults.value = searchResults.value.length > 0
 })
@@ -207,7 +273,7 @@ watchEffect(() => {
               <p>{{ post.post_content }}</p>
               <div v-if="post.post_cover_image" class="post-image">
                 <img
-                  :src="post.post_cover_image"
+                  src="../assets/images/sunset-forest-minimal-4k-wallpaper-thumb.jpg"
                   alt="Post image"
                 />
               </div>
@@ -224,9 +290,12 @@ watchEffect(() => {
                 👍 {{ post.isLiked ? 'Đã thích' : 'Thích' }}
               </button>
               <button class="reaction-btn" @click="openCommentModal(post)">💬 Bình luận</button>
+              <button class="reaction-btn" @click="openCommentModal(post)">💬 Bình luận</button>
               <button class="reaction-btn">🔄 Chia sẻ</button>
             </div>
 
+            <!-- Phần bình luận (hiển thị 2 comment mới nhất) -->
+            <div class="comments-section preview" v-if="post.comments && post.comments.length > 0">
             <!-- Phần bình luận (hiển thị 2 comment mới nhất) -->
             <div class="comments-section preview" v-if="post.comments && post.comments.length > 0">
               <div class="comment-input">
@@ -239,6 +308,19 @@ watchEffect(() => {
                   placeholder="Viết bình luận..."
                   @keydown.enter="createComment(post)"
                 />
+              </div>
+              
+              <!-- Chỉ hiển thị 2 bình luận mới nhất -->
+              <div class="comments-list">
+                <div v-for="comment in post.comments.slice(-2)" :key="comment._id" class="comment">
+                  <span class="avatar small">👤</span>
+                  <div>
+                    <strong>{{ comment.comment_user_id?.fullname || 'Anonymous' }}</strong>
+                    <p>{{ comment.comment_content }}</p>
+                  </div>
+                </div>
+                <div v-if="post.comments.length > 2" class="view-more" @click="openCommentModal(post)">
+                  Xem thêm bình luận...
               </div>
               
               <!-- Chỉ hiển thị 2 bình luận mới nhất -->
@@ -281,7 +363,7 @@ watchEffect(() => {
             <p>{{ post.post_content }}</p>
             <div v-if="post.post_cover_image" class="post-image">
               <img
-                :src="post.post_cover_image"
+                src="../assets/images/sunset-forest-minimal-4k-wallpaper-thumb.jpg"
                 alt="Post image"
               />
             </div>
@@ -298,9 +380,12 @@ watchEffect(() => {
               👍 {{ post.isLiked ? 'Đã thích' : 'Thích' }}
             </button>
             <button class="reaction-btn" @click="openCommentModal(post)">💬 Bình luận</button>
+            <button class="reaction-btn" @click="openCommentModal(post)">💬 Bình luận</button>
             <button class="reaction-btn">🔄 Chia sẻ</button>
           </div>
 
+          <!-- Phần bình luận (hiển thị 2 comment mới nhất) -->
+          <div class="comments-section preview" v-if="post.comments && post.comments.length > 0">
           <!-- Phần bình luận (hiển thị 2 comment mới nhất) -->
           <div class="comments-section preview" v-if="post.comments && post.comments.length > 0">
             <div class="comment-input">
@@ -373,6 +458,35 @@ watchEffect(() => {
             <button class="reaction-btn">💬 Bình luận</button>
             <button class="reaction-btn">🔄 Chia sẻ</button>
           </div>
+          
+          <!-- Phần bình luận -->
+          <div class="modal-comments">
+            <h4>Bình luận</h4>
+            
+            <!-- Phần hiển thị tất cả bình luận với scroll -->
+            <div class="comments-scrollable">
+              <div v-if="selectedPost?.comments.length === 0" class="no-comments">
+                Chưa có bình luận nào. Hãy là người đầu tiên bình luận!
+              </div>
+              <div v-for="comment in selectedPost?.comments" :key="comment._id" class="comment">
+                <span class="avatar small">👤</span>
+                <div>
+                  <strong>{{ comment.comment_user_id?.fullname || 'Anonymous' }}</strong>
+                  <p>{{ comment.comment_content }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Phần nhập bình luận -->
+            <div class="comment-input modal-comment-input">
+              <span class="avatar small">👤</span>
+              <input
+                v-model="content"
+                type="text"
+                placeholder="Viết bình luận..."
+                @keydown.enter="createCommentInModal"
+              />
+              <button class="send-btn" @click="createCommentInModal">Gửi</button>
           
           <!-- Phần bình luận -->
           <div class="modal-comments">
@@ -549,6 +663,19 @@ body {
 
 .reaction-btn:hover {
   background-color: #f0f2f5;
+}
+
+/* Thêm style cho phần "Xem thêm bình luận" */
+.view-more {
+  margin-top: 8px;
+  color: #1877f2;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
+
+.view-more:hover {
+  text-decoration: underline;
 }
 
 /* Thêm style cho phần "Xem thêm bình luận" */
@@ -844,6 +971,15 @@ body.modal-open {
 
   .right-sidebar {
     max-width: 100%;
+  }
+  
+  .modal-container {
+    width: 95%;
+    max-height: 95vh;
+  }
+  
+  .comments-scrollable {
+    max-height: 200px;
   }
   
   .modal-container {
