@@ -1,8 +1,9 @@
 <script setup>
 import { ref, provide } from "vue";
+import { provideUser } from "./model/user";
 
+const userRef = provideUser();
 const userId = ref(localStorage.getItem("userId"));
-
 provide("userId", userId);
 
 function setUserId(id) {

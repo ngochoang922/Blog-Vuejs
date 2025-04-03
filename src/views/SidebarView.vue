@@ -5,24 +5,43 @@
       <li>👨‍👩‍👧 Bạn bè</li>
       <li>📷 Ảnh</li>
       <li>📺 Video</li>
-      <li>⚙️ Cài đặt</li>
+      <li @click="toggleSettings" id="settings">⚙️ Cài đặt
+        <div v-if="showSettings" class="settings-submenu">
+          <div class="logout-button" @click.stop="logout">🚪 Đăng xuất</div>
+        </div>
+      </li>
     </ul>
   </aside>
 </template>
 
-<style scoped>
+<script setup>
+import { ref } from 'vue';
+
+const showSettings = ref(false);
+
+const toggleSettings = () => {
+  showSettings.value = !showSettings.value;
+};
+
+const logout = () => {
+  alert('Bạn đã đăng xuất!');
+  // Thêm logic đăng xuất tại đây
+};
+</script>
+
+<style>
 .sidebar {
   width: 220px;
-  background: rgba(213, 209, 209, 0.2); /* Nền trong suốt hơn */
+  background: rgba(213, 209, 209, 0.2);
   padding: 15px;
   height: 90vh;
   position: fixed;
   left: 10px;
   top: 60px;
-  backdrop-filter: blur(15px); /* Hiệu ứng làm mờ mạnh hơn */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Tạo hiệu ứng nổi */
-  border-radius: 12px; /* Bo góc */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Viền nhẹ */
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .sidebar ul {
@@ -36,11 +55,31 @@
   cursor: pointer;
   border-radius: 8px;
   transition: background 0.3s ease, transform 0.2s ease;
+  position: relative;
 }
 
 .sidebar li:hover {
   background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
+  transform: scale(1.05);
 }
 
+.logout-button {
+  background: rgba(255, 100, 100, 0.2);
+  color: #333;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-button:hover {
+  background: rgba(255, 100, 100, 0.4);
+}
+
+.settings-submenu {
+  margin-top: 5px;
+  padding-left: 20px;
+}
 </style>
