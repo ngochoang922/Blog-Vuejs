@@ -2,6 +2,7 @@
 import CreatePost from './CreatePost.vue'
 import API from '../api/api'
 import { inject, onMounted, ref, watchEffect } from 'vue'
+import User, { useUser } from '@/model/user'
 
 const userId = inject('userId') // ✅ Inject userId từ App.vue
 
@@ -13,6 +14,7 @@ const content = ref('')
 const commentParentId = ref(null)
 const searchResults = inject('searchResults')
 let loadSearchResults = ref(false)
+const userRef = useUser()
 
 // Thêm state cho modal
 const showModal = ref(false)
@@ -151,6 +153,15 @@ async function createCommentInModal() {
 }
 
 onMounted(() => {
+  const storedUser = localStorage.getItem('user');
+  if (storedUser) {
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      userRef.value = new User(parsedUser);
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+    }
+  }
   if (!searchResults.value.length) {
     fetchPosts()
   }
@@ -182,7 +193,9 @@ watchEffect(() => {
           <h3>Kết quả tìm kiếm</h3>
           <div v-for="(post, index) in searchResults" :key="index" class="post">
             <div class="post-header">
-              <span class="avatar">👤</span>
+              <span class="avatar">
+                <img :src="post.author?.profile?.avatar" alt="Avatar">
+              </span>
               <div class="post-info">
                 <h4>{{ post.author?.fullname || 'Anonymous' }}</h4>
                 <span class="post-time">{{ formatTime(post) }}</span>
@@ -194,7 +207,7 @@ watchEffect(() => {
               <p>{{ post.post_content }}</p>
               <div v-if="post.post_cover_image" class="post-image">
                 <img
-                  src="../assets/images/sunset-forest-minimal-4k-wallpaper-thumb.jpg"
+                  :src="post.post_cover_image"
                   alt="Post image"
                 />
               </div>
@@ -217,7 +230,9 @@ watchEffect(() => {
             <!-- Phần bình luận (hiển thị 2 comment mới nhất) -->
             <div class="comments-section preview" v-if="post.comments && post.comments.length > 0">
               <div class="comment-input">
-                <span class="avatar small">👤</span>
+                <span class="avatar small">
+                  <img :src="post.author?.avatar" alt="">
+                </span>
                 <input
                   v-model="content"
                   type="text"
@@ -252,7 +267,9 @@ watchEffect(() => {
         <h3>Bài viết mới</h3>
         <div v-for="(post, index) in posts" :key="index" class="post">
           <div class="post-header">
-            <span class="avatar">👤</span>
+            <span class="avatar">
+                <img :src="post.author?.profile?.avatar" alt="Avatar">
+              </span>
             <div class="post-info">
               <h4>{{ post.author?.fullname || 'Anonymous' }}</h4>
               <span class="post-time">{{ formatTime(post) }}</span>
@@ -264,7 +281,7 @@ watchEffect(() => {
             <p>{{ post.post_content }}</p>
             <div v-if="post.post_cover_image" class="post-image">
               <img
-                src="../assets/images/sunset-forest-minimal-4k-wallpaper-thumb.jpg"
+                :src="post.post_cover_image"
                 alt="Post image"
               />
             </div>
@@ -319,13 +336,14 @@ watchEffect(() => {
       <div class="modal-container">
         <div class="modal-header">
           <h3>Bài viết của {{ selectedPost?.author?.fullname || 'Anonymous' }}</h3>
-          <span class="close-btn" @click="closeModal">&times;</span>
         </div>
         
         <div class="modal-content">
           <!-- Thông tin bài viết -->
           <div class="post-header">
-            <span class="avatar">👤</span>
+            <span class="avatar">
+                <img :src="selectedPost.author?.profile?.avatar" alt="Avatar">
+              </span>
             <div class="post-info">
               <h4>{{ selectedPost?.author?.fullname || 'Anonymous' }}</h4>
               <span class="post-time">{{ formatTime(selectedPost) }}</span>
@@ -336,7 +354,7 @@ watchEffect(() => {
             <p>{{ selectedPost?.post_content }}</p>
             <div v-if="selectedPost?.post_cover_image" class="post-image">
               <img
-                src="../assets/images/sunset-forest-minimal-4k-wallpaper-thumb.jpg"
+                :src="selectedPost?.post_cover_image"
                 alt="Post image"
               />
             </div>
@@ -573,7 +591,6 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -799,11 +816,17 @@ body.modal-open {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Điều chỉnh cho màn hình nhỏ */
