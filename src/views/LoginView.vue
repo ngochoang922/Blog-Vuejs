@@ -1,24 +1,30 @@
 <script setup>
-import { inject, ref } from "vue"
+import { ref } from "vue"
 import { useRouter } from "vue-router"
 import API from '../api/api'
 
 const email = ref("")
 const password = ref("")
-const setUserId = inject("setUserId")
 const router = useRouter()
 
 async function login() {
   try {
-    const res = await API.post("/access/sign-in", { email: this.email, password: this.password });
-    setUserId(res.data.metadata.user.id);
-    localStorage.setItem("token", res.data.metadata.AccessToken);
-    if (res.data.status == 200) {
+    const loginResponse = await API.post("/access/sign-in", { email: email.value, password: password.value });
+    const userID = loginResponse.data.metadata.user.id
+    const userResposne = await API.get(`/user?id=${userID}`)
+    localStorage.setItem("user", JSON.stringify(userResposne.data.metadata))
+    // console.log(`id`, userResposne.data.metadata._id)
+    // console.log("User Data:", JSON.stringify(userResposne.data, null, 2));
+    // console.log("User Ref:", userRef.value.id);
+    // console.log("User Profile:", userRef.value.email);
+    // console.log("User :", userRef.value.role);
+    localStorage.setItem("token", loginResponse.data.metadata.accessToken);
+    if (loginResponse.data.status == 200) { 
       router.push("/home");
     }
-    console.log("Response Data:", JSON.stringify(res.data, null, 2));
+    console.log("Response Data:", JSON.stringify(loginResponse.data, null, 2));
   } catch (error) {
-    console.error(`Login Vue Error:::${error}`);
+    console.error(`Login Error:::${error}`);
   }
 }
 </script>

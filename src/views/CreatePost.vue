@@ -1,3 +1,72 @@
+<script setup>
+import API from '@/api/api'
+import User, { useUser } from '@/model/user'
+import { ref, nextTick, onMounted } from 'vue'
+
+const showModal = ref(false)
+const postContent = ref('')
+const userRef = useUser()
+const postImage = ref(null)
+const postImageUrl = ref(null)
+
+
+function openModal() {
+  showModal.value = true
+  nextTick(() => {
+    document.getElementById('post-textarea')?.focus()
+  })
+}
+
+function closeModal() {
+  showModal.value = false
+  postContent.value = ''
+  postImage.value = null
+  postImageUrl.value = null
+}
+
+async function submitPost(){
+  if (!postContent.value.trim()) return
+
+  const data = new FormData()
+  data.append('post_author_id', userRef.value.id)
+  data.append('post_content', postContent.value)
+  if(postImageUrl.value) data.append('post_cover_image', postImageUrl.value)
+
+  console.log(`User ID: ${userRef.value.id}`)
+  console.log(`Post Content: ${postContent.value}`)
+  console.log(`Post Image: ${postImageUrl.value}`)
+
+  try {
+    await API.post('/post', data)
+    console.log(`post:::${data}`)
+    console.log('Bài viết đã được đăng:', postContent.value)
+    closeModal()
+  } catch (error) {
+    console.error('Lỗi khi đăng bài:', error.response?.data || error.message)
+  }
+
+  postContent.value = ''
+  postImage.value = null
+  postImageUrl.value = null
+  showModal.value = false
+}
+
+
+onMounted(() => {
+  const storedUser = localStorage.getItem('user');
+  if (storedUser) {
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      userRef.value = new User(parsedUser);
+      console.log(`User created:`, userRef.value);
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+    }
+  }
+})
+
+</script>
+
 <template>
   <div>
     <!-- Simple input that shows initially -->
@@ -12,7 +81,7 @@
         <button class="action-btn">📌 Vị trí</button>
       </div>
     </div>
-    
+
     <!-- Full modal that shows when clicked -->
     <div class="modal-overlay" v-if="showModal" @click="closeModal">
       <div class="create-post-modal" @click.stop>
@@ -20,46 +89,45 @@
           <h2>Tạo bài viết</h2>
           <button class="close-button" @click="closeModal">×</button>
         </div>
-        
+
         <div class="user-profile">
           <div class="avatar-container">
             <div class="avatar">👤</div>
           </div>
           <div class="user-details">
             <div class="username">Ngọc Hoàng</div>
-            <div class="privacy-setting">
-            </div>
+            <div class="privacy-setting"></div>
           </div>
         </div>
-        
+
         <div class="post-textarea">
-          <textarea 
-            placeholder="Ngọc ơi, bạn đang nghĩ gì thế?" 
+          <textarea
+            placeholder="bạn đang nghĩ gì thế?"
             v-model="postContent"
             ref="postTextarea"
             rows="3"
             autofocus
           ></textarea>
         </div>
-        
+
+        <div v-if="postImageUrl" class="image-preview">
+          <img :src="postImageUrl" alt="Xem trước ảnh" />
+          <button class="remove-image" @click="postImageUrl = ''">×</button>
+        </div>
+
         <div class="attachment-section">
           <div class="attachment-label">Thêm vào bài viết của bạn</div>
           <div class="attachment-icons">
-            <button class="icon-button">🖼️</button>
-            <button class="icon-button">👥</button>
-            <button class="icon-button">😊</button>
-            <button class="icon-button">📍</button>
-            <button class="icon-button">GIF</button>
-            <button class="icon-button">•••</button>
+            <input
+              type="text"
+              v-model="postImageUrl"
+              placeholder="Nhập URL ảnh"
+            />
           </div>
         </div>
-        
+
         <div class="post-button-container">
-          <button 
-            class="post-button" 
-            :disabled="!postContent.trim()" 
-            @click="submitPost"
-          >
+          <button class="post-button" :disabled="!postContent.trim()" @click="submitPost">
             Đăng
           </button>
         </div>
@@ -68,40 +136,74 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      showModal: false,
-      postContent: ''
-    }
-  },
-  methods: {
-    openModal() {
-      this.showModal = true;
-      // Focus the textarea after modal opens
-      this.$nextTick(() => {
-        if (this.$refs.postTextarea) {
-          this.$refs.postTextarea.focus();
-        }
-      });
-    },
-    closeModal() {
-      this.showModal = false;
-    },
-    submitPost() {
-      if (!this.postContent.trim()) return;
-      
-      // Replace with your actual API call
-      console.log('Bài viết đã được đăng:', this.postContent);
-      this.postContent = '';
-      this.showModal = false;
-    }
-  }
-}
-</script>
-
 <style>
+
+.attachment-section {
+  margin-top: 20px;
+}
+
+.attachment-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.attachment-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+  background-color: #fff;
+}
+
+input[type="text"]::placeholder {
+  color: #aaa;
+}
+
+.image-preview {
+  max-height: 200px;
+  position: relative;
+  margin: 10px 16px;
+  text-align: center;
+}
+
+.image-preview img {
+  max-height: 200px;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.remove-image {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+  
+
 /* Initial create post component */
 .create-post {
   background-color: rgb(204 216 220 / 67%);
@@ -177,6 +279,7 @@ export default {
 
 .create-post-modal {
   width: 500px;
+  /* height: 500px;  */
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -235,7 +338,6 @@ export default {
   font-size: 15px;
 }
 
-
 .dropdown-arrow {
   margin-left: 4px;
   font-size: 9px;
@@ -247,6 +349,8 @@ export default {
 }
 
 textarea {
+  max-height: 150px;
+  overflow-y: auto;
   width: 100%;
   border: none;
   resize: none;

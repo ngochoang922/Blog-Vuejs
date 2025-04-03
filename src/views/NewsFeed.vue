@@ -11,7 +11,7 @@ const nextCursor = ref(null)
 const limit = 10
 const content = ref('')
 const commentParentId = ref(null)
-const searchResults = inject('searchResults')
+const injectedSearchResults  = inject('searchResults')
 let loadSearchResults = ref(false)
 
 // postId, userId, content, commentParentId
@@ -52,7 +52,7 @@ async function fetchPosts() {
       const commentRes = await API.get(`/comment?postId=${post._id}`)
 
       post.comments = commentRes.data.metadata
-      console.log('Comments:', post.comments, post._id)
+      // console.log('Comments:', post.comments, post._id)
     }
     nextCursor.value = res.data.metadata.nextCursor
   } catch (error) {
@@ -95,14 +95,14 @@ function formatTime(post) {
 }
 
 onMounted(() => {
-  if (!searchResults.value.length) {
+  if (!injectedSearchResults.value.length) {
     fetchPosts()
   }
 })
 
 watchEffect(() => {
-  console.log('📢 NewsFeed nhận searchResults:', searchResults.value)
-  loadSearchResults.value = searchResults.value.length > 0
+  console.log('📢 NewsFeed nhận searchResults:', injectedSearchResults.value)
+  loadSearchResults.value = injectedSearchResults.value.length > 0
 })
 </script>
 
@@ -130,7 +130,7 @@ watchEffect(() => {
               <p>{{ post.post_content }}</p>
               <div v-if="post.post_cover_image" class="post-image">
                 <img
-                  src="../assets/images/sunset-forest-minimal-4k-wallpaper-thumb.jpg"
+                  :src="post.post_cover_image"
                   alt="Post image"
                 />
               </div>
@@ -197,7 +197,7 @@ watchEffect(() => {
             <p>{{ post.post_content }}</p>
             <div v-if="post.post_cover_image" class="post-image">
               <img
-                src="../assets/images/sunset-forest-minimal-4k-wallpaper-thumb.jpg"
+                :src="post.post_cover_image"
                 alt="Post image"
               />
             </div>

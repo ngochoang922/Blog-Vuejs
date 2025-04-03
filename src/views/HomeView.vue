@@ -5,10 +5,9 @@ import NewsFeed from "../views/NewsFeed.vue";
 import ChatSidebar from "../views/ChatSidebar.vue";
 import { ref, provide } from "vue";
 
-
 const searchResults = ref([])
-
 provide("searchResults", searchResults)
+
 </script>
 
 <template>
